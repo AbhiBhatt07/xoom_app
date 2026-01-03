@@ -7,7 +7,7 @@ import MeetingSetup from '@/components/MeetingSetup';
 import MeetingRoom from '@/components/MeetingRoom';
 import { useGetCallById } from '@/hooks/useGetCallById';
 import Loader from '@/components/Loader';
-
+import "@stream-io/video-react-sdk/dist/css/styles.css";
 
 const Meeting = ({ params }: { params: Promise<{ id: string }> }) => {
     // Unwrap the params Promise using React.use()
@@ -22,7 +22,7 @@ const Meeting = ({ params }: { params: Promise<{ id: string }> }) => {
     return (
         <main>
             <StreamCall call={call}>
-                <StreamTheme>
+                <StreamTheme className="my-custom-root-class">
                     {!isSetupComplete ?
                         (<MeetingSetup setIsSetupComplete={setIsSetupComplete} />)
                         : (<MeetingRoom />)}
