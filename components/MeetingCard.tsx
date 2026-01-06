@@ -18,7 +18,7 @@ interface MeetingCardProps {
 
 const MeetingCard = ({
   icon, title, date, isPreviousMeeting, buttonIcon1, handleClick, link, buttonText }: MeetingCardProps) => {
-  const {toast} = useToast();
+  const { toast } = useToast();
   return (
     <section className='flex min-h-[258px] w-full flex-col justify-between rounded-[14px] bg-dark-1 px-5 py-8 xl:max-w-[560px]'>
       <article className='flex flex-col gap-5'>
@@ -47,7 +47,7 @@ const MeetingCard = ({
             +5
           </div>
         </div>
-        {!isPreviousMeeting && (
+        {!isPreviousMeeting &&  (
           <div className="flex gap-2">
             <Button onClick={handleClick} className="rounded bg-blue-1 px-6">
               {buttonIcon1 && (
