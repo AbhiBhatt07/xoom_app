@@ -13,6 +13,7 @@ import {
 import { useSearchParams } from 'next/navigation'
 import EndCallButton from './EndCallButton'
 import Loader from './Loader'
+import { useRouter } from 'next/navigation'
 
 type CallLayoutType = 'grid' | 'speaker-left' | 'speaker-right'
 const MeetingRoom = () => {
@@ -20,12 +21,11 @@ const MeetingRoom = () => {
   // !! mark checks if the value is truthy first and then converts it to a boolean 
   // 'personal' => !'personal' => false => !false => truthy same as with if 1st is false
   const isPersonalRoom = !!searchParams.get('personal');
-
   const [layout, setLayout] = useState<CallLayoutType>('speaker-left')
   const [showParticipants, setShowParticipants] = useState(false)
-
   const { useCallCallingState } = useCallStateHooks();
   const callingState = useCallCallingState();
+  const router = useRouter();
 
   if (callingState !== CallingState.JOINED) return <Loader/>
 
@@ -52,7 +52,7 @@ const MeetingRoom = () => {
           }} />
         </div>
         <div className='fixed bottom-0 flex w-full items-center justify-center gap-5 flex-wrap'>
-          <CallControls />
+          <CallControls onLeave={() => router.push('/') }/>
           <DropdownMenu>
             <div className='flex items-center'>
               <DropdownMenuTrigger className='cursor-pointer rounded-2xl bg-[#19232d] px-4 py-2 hover:bg-[#4c535b]'>

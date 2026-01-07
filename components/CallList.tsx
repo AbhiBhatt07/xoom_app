@@ -1,7 +1,7 @@
 // @ts-nocheck
 
 'use client'
-import React from 'react'
+import React, { use } from 'react'
 import { useGetCalls } from '../hooks/useGetCalls';
 import { useRouter } from 'next/navigation';
 import { CallRecording } from '@stream-io/node-sdk';
@@ -9,6 +9,7 @@ import { useState, useEffect } from 'react';
 import { Call } from '@stream-io/video-react-sdk';
 import MeetingCard from "./MeetingCard"
 import Loader from './Loader';
+import { useToast } from '@/hooks/use-toast';
 
 
 const CallList = ({ type }: { type: 'ended' | 'upcoming' | 'recordings' }) => {
@@ -17,6 +18,7 @@ const CallList = ({ type }: { type: 'ended' | 'upcoming' | 'recordings' }) => {
 
   const [recordings, setRecordings] = useState<CallRecording[]>([])
 
+  const { toast } = useToast();
   const getCallType = () => {
     switch (type) {
       case 'ended':
@@ -45,18 +47,28 @@ const CallList = ({ type }: { type: 'ended' | 'upcoming' | 'recordings' }) => {
 
   useEffect(() => {
     const fetchRecording = async () => {
-      const callData = await Promise.all(callRecordings
-        .map((meeting) => meeting.queryRecordings()))
 
-      const recordings = callData
-        .filter(call => call.recordings.length > 0)
-        .flatMap(call => call.recordings)
-      setRecordings(recordings)
+      try {
+        if (!Array.isArray(callRecordings)) return;
+        
+        const callData = await Promise.all(callRecordings
+          .map((meeting) => meeting.queryRecordings()))
+
+        const recordings = callData
+          .filter(call => call.recordings.length > 0)
+          .flatMap(call => call.recordings)
+        setRecordings(recordings)
+
+      } catch (error) {
+        toast({ title: 'Too many requests try again later' })
+        console.log(error);
+      }
+
     }
     if (type === 'recordings') fetchRecording();
   }, [type, callRecordings])
 
-  const calls = getCallType();
+  const calls = type === 'recordings' ? recordings : getCallType();
   const noCallMessage = getNoCallMessage();
 
   if (isLoading) return <Loader />
@@ -69,7 +81,7 @@ const CallList = ({ type }: { type: 'ended' | 'upcoming' | 'recordings' }) => {
           icon={
             type === 'ended' ? '/icons/previous.svg' : type === 'upcoming' ? '/icons/upcoming.svg' : '/icons/recordings.svg'
           }
-          title={(meeting as Call).state?.custom.description.substring(0, 25) || meeting.filename.substring(0, 20) || 'No description'}
+          title={(meeting as Call).state?.custom?.description?.substring(0, 25) || meeting?.filename?.substring(0, 20) || 'Personal Meeting'}
           date={meeting.state?.startsAt.toLocaleString() || meeting.start_time.toLocaleString()}
           isPreviousMeeting={type === 'ended'}
           buttonIcon1={type === 'recordings' ? '/icons/play.svg' : undefined}
