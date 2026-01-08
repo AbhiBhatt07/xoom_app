@@ -25,7 +25,7 @@ const Navbar = () => {
         </p>
       </Link>
       <div className='flex items-center gap-5'>
-        <ThemeToggle />
+       
         <SignedIn>
           <UserButton />
         </SignedIn>

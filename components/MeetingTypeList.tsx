@@ -1,3 +1,5 @@
+// 10. MeetingTypeList.tsx - Meeting Options
+// ============================================
 'use client'
 import { useRouter } from 'next/navigation'
 import HomeCard from './HomeCard'
@@ -72,34 +74,34 @@ const MeetingTypeList = () => {
 
   return (
     <section
-      className='grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-4'>
+      className='grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4 animate-fade-in'>
       <HomeCard
         img="/icons/add-meeting.svg"
         title="New Meeting"
         description="Start an instant meeting"
         handleClick={() => setMeetingState('isInstantMeeting')}
-        className="bg-orange-1"
+        className="bg-gradient-to-br from-orange-1 to-orange-500 hover:shadow-lg"
       />
       <HomeCard
         img="/icons/schedule.svg"
         title="Schedule Meeting"
         description="Plan your meeting"
         handleClick={() => setMeetingState('isScheduleMeeting')}
-        className="bg-blue-1"
+        className="bg-gradient-to-br from-blue-1 to-blue-2 hover:shadow-lg"
       />
       <HomeCard
         img="/icons/recordings.svg"
         title="View Recordings"
-        description="Start an instant meeting"
+        description="Check your recordings"
         handleClick={() => router.push('/recordings')}
-        className="bg-purple-1"
+        className="bg-gradient-to-br from-purple-1 to-purple-700 hover:shadow-lg"
       />
       <HomeCard
         img="/icons/join-meeting.svg"
         title="Join Meeting"
         description="Via invitation link"
         handleClick={() => setMeetingState('isJoinMeeting')}
-        className="bg-yellow-1"
+        className="bg-gradient-to-br from-yellow-1 to-yellow-600 hover:shadow-lg"
       />
 
       {!callDetails ? (
@@ -109,18 +111,20 @@ const MeetingTypeList = () => {
           title="Create Meeting"
           handleClick={createMeeting}
         >
-          <div className='flex flex-col gap-2.5'>
-            <label className='text-base text-normal leading-[22px] text-sky-2'>
+          <div className='flex flex-col gap-3'>
+            <label className='text-base font-medium leading-[22px] text-sky-2'>
               Add a description
             </label>
-            <Textarea className='border-none bg-dark-3 focus-visible:ring-0 focus-visible:ring-offset-0'
+            <Textarea 
+              className='border-2 border-dark-3 bg-dark-2 focus-visible:ring-1 focus-visible:ring-blue-1 focus-visible:ring-offset-0 text-white rounded-lg transition-all duration-250 hover:border-dark-4'
+              placeholder="Meeting description..."
               onChange={(e) => {
                 setValues({ ...values, description: e.target.value })
               }}
             />
           </div>
-          <div className='flex w-full flex-col gap-2.5'>
-            <label className='text-base text-normal leading-[22px] text-sky-2'>
+          <div className='flex w-full flex-col gap-3'>
+            <label className='text-base font-medium leading-[22px] text-sky-2'>
               Select Date & Time
             </label>
             <ReactDatePicker
@@ -131,7 +135,7 @@ const MeetingTypeList = () => {
               timeIntervals={15}
               timeCaption='time'
               dateFormat="MMMM d, yyyy h:mm aa"
-              className='w-full rounded bg-dark-3 p-2 focus:outline-none'
+              className='w-full rounded-lg bg-dark-2 border-2 border-dark-3 p-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-1 transition-all duration-250'
             />
           </div>
         </MeetingModal>
@@ -168,7 +172,11 @@ const MeetingTypeList = () => {
         buttonText="Join Meeting"
         handleClick={() => router.push(values.link)}>
 
-        <input placeholder="Meeting Link" className="border-none bg-dark-3 focus-visible:ring-0 focus-visible:ring-offset-0" onChange={(e) => setValues({ ...values, link: e.target.value })} />
+        <input 
+          placeholder="Meeting Link" 
+          className="w-full rounded-lg border-2 border-dark-3 bg-dark-2 p-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-1 focus:border-transparent transition-all duration-250 hover:border-dark-4" 
+          onChange={(e) => setValues({ ...values, link: e.target.value })} 
+        />
 
       </MeetingModal>
     </section>

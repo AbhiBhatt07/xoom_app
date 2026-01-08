@@ -1,3 +1,6 @@
+// ============================================
+// 7. MeetingCard.tsx - Meeting Card Component
+// ============================================
 import Image from 'next/image'
 import React from 'react'
 import { Button } from './ui/button'
@@ -20,17 +23,19 @@ const MeetingCard = ({
   icon, title, date, isPreviousMeeting, buttonIcon1, handleClick, link, buttonText }: MeetingCardProps) => {
   const { toast } = useToast();
   return (
-    <section className='flex min-h-[258px] w-full flex-col justify-between rounded-[14px] bg-dark-1 px-5 py-8 xl:max-w-[560px]'>
+    <section className='flex min-h-[258px] w-full flex-col justify-between rounded-2xl bg-dark-1 border border-dark-3 px-6 py-8 xl:max-w-[560px] transition-all duration-300 hover:border-blue-1 hover:shadow-dark-lg transform hover:scale-102 animate-scale-in'>
       <article className='flex flex-col gap-5'>
-        <Image src={icon} alt="upcoming" width={28} height={28} />
+        <div className='flex items-center justify-center w-12 h-12 rounded-lg bg-dark-3 group-hover:bg-blue-1 transition-all duration-250'>
+          <Image src={icon} alt="meeting type" width={28} height={28} />
+        </div>
         <div className='flex justify-between'>
           <div className='flex flex-col gap-2'>
-            <h2 className='text-2xl font-bold'>{title}</h2>
-            <p className='text-base font-normal'>{date}</p>
+            <h2 className='text-2xl font-bold text-white group-hover:text-blue-1 transition-colors duration-250'>{title}</h2>
+            <p className='text-sm font-normal text-gray-400'>{date}</p>
           </div>
         </div>
       </article>
-      <article className={cn("flex justify-center relative", {})}>
+      <article className={cn("flex justify-between items-center gap-2  ", {})}>
         <div className='relative flex w-full max-sm:hidden'>
           {avatarImages.map((image, index) => (
             <Image
@@ -47,9 +52,12 @@ const MeetingCard = ({
             +5
           </div>
         </div>
-        {!isPreviousMeeting &&  (
-          <div className="flex gap-2">
-            <Button onClick={handleClick} className="rounded bg-blue-1 px-6">
+        {!isPreviousMeeting && (
+          <div className="flex gap-3 w-full sm:w-auto p-3">
+            <Button
+              onClick={handleClick}
+              className="flex-1 sm:flex-none rounded-lg bg-gradient-blue hover:shadow-neon-blue text-white font-semibold transition-all duration-250 transform hover:scale-105 active:scale-95"
+            >
               {buttonIcon1 && (
                 <Image src={buttonIcon1} alt="feature" width={20} height={20} />
               )}
@@ -62,7 +70,7 @@ const MeetingCard = ({
                   title: "Link Copied",
                 });
               }}
-              className="bg-dark-4 px-6"
+              className="flex-1 sm:flex-none rounded-lg bg-dark-3 hover:bg-dark-4 text-white font-semibold transition-all duration-250 transform hover:scale-105 active:scale-95"
             >
               <Image
                 src="/icons/copy.svg"
@@ -70,7 +78,7 @@ const MeetingCard = ({
                 width={20}
                 height={20}
               />
-              &nbsp; Copy Link
+              &nbsp; Copy
             </Button>
           </div>
         )}

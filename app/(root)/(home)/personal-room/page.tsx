@@ -7,14 +7,16 @@ import Image from 'next/image';
 import { useGetCallById } from '@/hooks/useGetCallById';
 import { useStreamVideoClient } from '@stream-io/video-react-sdk';
 import { useRouter } from 'next/navigation';
+import { Copy, Play } from 'lucide-react';
 
 const Table = ({ title, description }:
   { title: string; description: string }) => (
-  <div>
-    <h1 className='text-base font-medium text-sky-1 lg:text-xl xl:min-w-32'>{title}</h1>
-    <h1 className='truncate text-sm font-bold max-sm:max-w-[32-px] lg:text-xl'>{description}</h1>
+  <div className='flex flex-col gap-2 pb-4 border-b border-dark-3 last:border-b-0 hover:bg-dark-2 px-4 py-3 rounded-lg transition-all duration-250'>
+    <h1 className='text-sm font-semibold text-sky-2 uppercase tracking-wide'>{title}</h1>
+    <h1 className='truncate text-base font-bold text-white group-hover:text-blue-1 transition-colors duration-250 break-all'>{description}</h1>
   </div>
 )
+
 const PersonalRoom = () => {
 
   const { user } = useUser();
@@ -40,22 +42,36 @@ const PersonalRoom = () => {
     router.push(`/meeting/${meetingId}?personal=true`)
   }
 
-
-
   return (
-    <section className='flex flex-col gap-10 size-full text-white'
-    >
-      <h1 className='text-3xl font-bold'>
-        Personal Room
-      </h1>
-
-      <div className='flex w-full flex-col gap-8 xl:max-w-[900px]'>
-        <Table title='Topic' description={`${user?.firstName}'s Meeting Room`} />
-        <Table title='Meeting ID' description={meetingId!} />
-        <Table title='Topic' description={meetingLink} />
+    <section className='flex flex-col gap-10 size-full text-white animate-fade-in'>
+      <div>
+        <h1 className='text-4xl font-bold bg-gradient-to-r from-sky-1 to-blue-1 bg-clip-text text-transparent mb-2'>
+          Personal Room
+        </h1>
+        <p className='text-gray-400'>Your private meeting space</p>
       </div>
-      <div className='flex gap-5'>
-        <Button className='bg-blue-1' onClick={startRoom}>
+
+      <div className='flex w-full flex-col gap-4 xl:max-w-[900px] bg-dark-2 border-2 border-dark-3 rounded-2xl p-6 hover:border-blue-1 transition-all duration-250'>
+        <Table 
+          title='Room Owner' 
+          description={`${user?.firstName} ${user?.lastName}`} 
+        />
+        <Table 
+          title='Meeting ID' 
+          description={meetingId!} 
+        />
+        <Table 
+          title='Meeting Link' 
+          description={meetingLink} 
+        />
+      </div>
+
+      <div className='flex gap-4 flex-wrap'>
+        <Button 
+          className='bg-gradient-blue hover:shadow-neon-blue text-white font-semibold px-8 py-3 rounded-lg transition-all duration-250 transform hover:scale-105 active:scale-95 flex items-center gap-2'
+          onClick={startRoom}
+        >
+          <Play size={20} />
           Start Meeting
         </Button>
         <Button
@@ -65,19 +81,24 @@ const PersonalRoom = () => {
               title: "Link Copied",
             });
           }}
-          className="bg-dark-4 px-6"
+          className="bg-dark-3 hover:bg-dark-4 text-white font-semibold px-8 py-3 rounded-lg transition-all duration-250 transform hover:scale-105 active:scale-95 flex items-center gap-2 border border-dark-3 hover:border-blue-1"
         >
-          <Image
-            src="/icons/copy.svg"
-            alt="feature"
-            width={20}
-            height={20}
-          />
-          &nbsp; Copy Invitation
+          <Copy size={20} />
+          Copy Invitation
         </Button>
+      </div>
+
+      <div className='mt-4 p-6 bg-dark-2 border-l-4 border-blue-1 rounded-lg animate-pulse-soft'>
+        <h3 className='text-sm font-semibold text-sky-2 mb-2'>💡 How to use</h3>
+        <ul className='text-sm text-gray-400 space-y-1'>
+          <li>• Share your personal link with participants</li>
+          <li>• They can join anytime when you start a meeting</li>
+          <li>• Your personal link never changes</li>
+        </ul>
       </div>
     </section>
   )
 
 }
+
 export default PersonalRoom
