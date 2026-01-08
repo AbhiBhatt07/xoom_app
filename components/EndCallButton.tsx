@@ -1,5 +1,3 @@
-// 11. EndCallButton.tsx - End Call Button
-// ============================================
 'use client'
 import { useCall, useCallStateHooks } from '@stream-io/video-react-sdk'
 import { useRouter } from 'next/navigation'
@@ -10,19 +8,28 @@ const EndCallButton = () => {
   const call = useCall();
   const router = useRouter();
 
-  const {useLocalParticipant} = useCallStateHooks();
+  const { useLocalParticipant } = useCallStateHooks();
   const localParticipant = useLocalParticipant();
 
-  // Check if the user is the owner of the call using the call state
-  const isMeetingOwner = localParticipant && call?.state.createdBy && localParticipant.id === call?.state.createdBy.id;
+  // Check if user is the meeting owner/creator
+  const isMeetingOwner = localParticipant?.userId === call?.state.createdBy?.id;
 
-  if (!isMeetingOwner) return null;
+  // FIX: Add debug logging to see what's happening
+  console.log('Local Participant ID:', localParticipant?.userId);
+  console.log('Call Creator ID:', call?.state.createdBy?.id);
+  console.log('Is Owner:', isMeetingOwner);
+
+  if (!isMeetingOwner) {
+    return null; // Hide button if not owner
+  }
 
   return (
     <Button 
       onClick={async () => {
-        await call.endCall();
-        router.push('/')
+        if (call) {
+          await call.endCall();
+          router.push('/')
+        }
       }} 
       className='bg-red-1 hover:bg-red-600 text-white font-semibold rounded-full px-6 py-3 transition-all duration-250 transform hover:scale-105 active:scale-95 flex items-center gap-2 shadow-dark-md'
     >
