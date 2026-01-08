@@ -1,4 +1,3 @@
-/** @type {import('tailwindcss').Config} */
 import animate from 'tailwindcss-animate'
 
 const config = {
@@ -131,6 +130,6 @@ const config = {
     },
   },
   plugins: [animate],
-} satisfies Config
+}
 
 export default config
