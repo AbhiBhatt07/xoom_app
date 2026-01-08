@@ -8,62 +8,100 @@
   box-sizing: border-box;
 }
 
+/* ======== HTML & Body Base Styles ======== */
+html {
+  scroll-behavior: smooth;
+  color-scheme: dark;
+}
+
+body {
+  background-color: #1c1f2e;
+  color: #ffffff;
+}
+
 /* ======== stream css overrides ======== */
 .str-video__call-stats {
   max-width: 500px;
   position: relative;
+  background-color: rgba(28, 31, 46, 0.9);
+  border-radius: 12px;
+  border: 1px solid #252a41;
 }
 
 .str-video__speaker-layout__wrapper {
   max-height: 700px;
+  background: rgba(22, 25, 37, 0.5);
+  border-radius: 12px;
 }
 
 .str-video__participant-details {
   color: white;
+  background: rgba(28, 31, 46, 0.8);
 }
 
 .str-video__menu-container {
   color: white;
+  background: rgba(22, 25, 37, 0.9);
 }
 
 .str-video__notification {
   color: white;
+  background: rgba(14, 120, 249, 0.2);
+  border: 1px solid #0E78F9;
+  border-radius: 8px;
 }
 
 .str-video__participant-list {
   background-color: #1c1f2e;
-  padding: 10px;
-  border-radius: 10px;
+  padding: 12px;
+  border-radius: 12px;
   color: white;
   height: 100%;
+  border: 1px solid #252a41;
 }
 
 .str-video__call-controls__button {
-  height: 40px;
+  height: 44px;
+  border-radius: 10px;
+  background-color: #252a41;
+  border: 1px solid #252a41;
+  transition: all 0.3s ease;
 }
 
-.glassmorphism {
-  background: rgba(255, 255, 255, 0.25);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
+.str-video__call-controls__button:hover {
+  background-color: #2d3548;
+  border-color: #0E78F9;
+  box-shadow: 0 0 20px rgba(14, 120, 249, 0.3);
 }
+
+/* ======== Glassmorphism Effects ======== */
+.glassmorphism {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
 .glassmorphism2 {
-  background: rgba(18, 17, 17, 0.25);
+  background: rgba(18, 17, 17, 0.4);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 /* ==== clerk class override ===== */
-
-.cl-internal-2gzuzc{
+.cl-internal-2gzuzc {
   filter: invert();
 }
-.cl-internal-1wocrtd{
+
+.cl-internal-1wocrtd {
   visibility: hidden;
 }
+
 .cl-internal-11tkpc3 {
   color: white;
 }
+
 .cl-userButtonPopoverActionButtonIcon {
   color: white;
 }
@@ -71,24 +109,42 @@
 .cl-logoBox {
   height: 40px;
 }
+
 .cl-dividerLine {
   background: #252a41;
-  height: 2px;
+  height: 1px;
 }
 
 .cl-socialButtonsIconButton {
-  border: 3px solid #565761;
+  border: 2px solid #565761;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.cl-socialButtonsIconButton:hover {
+  border-color: #0E78F9;
+  box-shadow: 0 0 15px rgba(14, 120, 249, 0.2);
 }
 
 .cl-internal-wkkub3 {
   color: white;
 }
+
 .cl-userButtonPopoverActionButton {
   color: white;
+  transition: all 0.3s ease;
 }
 
-/* =============================== */
+.cl-userButtonPopoverActionButton:hover {
+  background-color: #252a41;
+}
 
+.cl-form-backdrop {
+  background-color: rgba(22, 25, 37, 0.5);
+  backdrop-filter: blur(10px);
+}
+
+/* ======== Utility Classes ======== */
 @layer utilities {
   .flex-center {
     @apply flex justify-center items-center;
@@ -97,25 +153,88 @@
   .flex-between {
     @apply flex justify-between items-center;
   }
+
+  .scale-102 {
+    transform: scale(1.02);
+  }
+
+  .animate-spin-slow {
+    animation: spin 3s linear infinite;
+  }
+
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
 }
 
-/* animation */
-
+/* ======== Show Block Animation ======== */
 .show-block {
   width: 100%;
   max-width: 350px;
   display: block;
-  animation: show 0.7s forwards linear;
+  animation: show-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
 
-@keyframes show {
+@keyframes show-in {
   0% {
-    animation-timing-function: ease-in;
+    opacity: 0;
     width: 0%;
+    transform: translateX(-20px);
   }
-
   100% {
-    animation-timing-function: ease-in;
+    opacity: 1;
     width: 100%;
+    transform: translateX(0);
   }
+}
+
+/* ======== Scrollbar Styling ======== */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1c1f2e;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #252a41;
+  border-radius: 4px;
+  transition: background 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #0E78F9;
+}
+
+/* ======== Input & Form Styling ======== */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+textarea {
+  transition: all 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+textarea:focus {
+  box-shadow: 0 0 0 3px rgba(14, 120, 249, 0.1);
+}
+
+/* ======== Selection Color ======== */
+::selection {
+  background-color: #0E78F9;
+  color: white;
+}
+
+::-moz-selection {
+  background-color: #0E78F9;
+  color: white;
 }
